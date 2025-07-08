@@ -1,21 +1,21 @@
 import { z } from "zod"
 
 export const loginSchema = z.object({
-  email: z.string().email("Email tidak valid"),
-  password: z.string().min(6, "Password minimal 6 karakter"),
+  email: z.string({required_error: "Email is required"}).email("Email is invalid"),
+  password: z.string({required_error: "Password is required"}).min(6, "Password must be 6 characters minimal"),
 })
 
 export type LoginSchema = z.infer<typeof loginSchema>
 
 export const registerSchema = z
   .object({
-    name: z.string().min(2, "Nama minimal 2 karakter"),
-    email: z.string().email("Email tidak valid"),
-    password: z.string().min(6, "Password minimal 6 karakter"),
+    fullname: z.string().min(2, "Fullname must be 2 characters minimal"),
+    email: z.string().email("Email is invalid"),
+    password: z.string().min(6, "Password must be 6 characters minimal"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Password tidak cocok",
+    message: "Password not match",
     path: ["confirmPassword"],
   })
 

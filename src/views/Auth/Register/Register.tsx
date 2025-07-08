@@ -1,4 +1,3 @@
-
 import { RegisterForm } from "@/components/register-form";
 import Image from "next/image";
 
@@ -30,7 +29,12 @@ export default function Register() {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:flex justify-center items-center">
-        <Image src="/images/cover.png" width={340} height={340} alt="Image" />
+        <Image
+          src="/images/ilustration/signUp.svg"
+          width={300}
+          height={300}
+          alt="People planting a tree"
+        />
       </div>
     </div>
   );
