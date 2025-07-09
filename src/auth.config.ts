@@ -7,9 +7,7 @@ import bcrypt from "bcryptjs";
 export default {
   providers: [
     Credentials({
-      
       authorize: async (credentials) => {
-        // access credentials normally
         const validatedFields = loginSchema.parse(credentials);
         if (!validatedFields) return null;
 
@@ -26,7 +24,6 @@ export default {
         return {
           id: user.id,
           email: user.email,
-          role: user.role,
           fullname: user.fullname ?? undefined,
         };
       },

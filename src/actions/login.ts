@@ -10,11 +10,11 @@ const loginUser = async (data: ILogin) => {
   const user = await getUserByEmail(email);
 
   if (!user || !user.email || !user.password) {
-    throw new Error("Email tidak ditemukan")
+    throw new Error("Email not found")
   }
 
   if (!user.emailVerified) {
-    throw new Error("Email belum diverifikasi. Cek email atau spam anda.")
+    throw new Error("Email not verified. Check your inbox or spam.")
   }
 
   try {

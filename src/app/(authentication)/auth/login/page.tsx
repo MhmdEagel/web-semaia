@@ -1,6 +1,6 @@
 
 import { createMetadata } from "@/lib/metadata";
-import Login from "../../../views/Auth/Login/Login"
+import Login from "@/views/Auth/Login/Login";
 
 export const generateMetadata = () => createMetadata({ title: "Login" });
 

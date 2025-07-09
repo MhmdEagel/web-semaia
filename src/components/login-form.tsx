@@ -18,6 +18,8 @@ import {
 } from "./ui/form";
 import ErrorCard from "./ui/error-card";
 import { Spinner } from "./ui/spinner";
+import loginUser from "@/actions/login";
+import { ILogin } from "@/types/Auth";
 
 export function LoginForm({
   className,
@@ -32,10 +34,10 @@ export function LoginForm({
 
   const handleVisibility = () => setIsVisible(!isVisible);
 
-  const onSubmit = async (data: LoginSchema) => {
+  const onSubmit = async (data: ILogin) => {
     try {
       setIsPending(true);
-      console.log("Form Submitted:", data);
+      await loginUser(data)
     } catch (error) {
       form.setError("root", {
         message: (error as Error).message,

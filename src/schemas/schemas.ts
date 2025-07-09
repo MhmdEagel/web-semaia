@@ -20,3 +20,11 @@ export const registerSchema = z
   })
 
 export type RegisterSchema = z.infer<typeof registerSchema>
+
+export const storeSchema = z.object({
+  name: z.string().min(3, "Store name must be at least 3 characters"),
+  description: z.string().optional(),
+  logoUrl: z.string().optional(),
+})
+
+export type StoreSchema = z.infer<typeof storeSchema>
