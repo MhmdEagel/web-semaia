@@ -23,7 +23,6 @@ import { signOut } from "@/auth";
 
 export default async function Navbar() {
   const user = await getCurrentUser();
-  console.log(user);
   return (
     <nav className="p-4 bg-secondary flex items-center justify-between">
       <Link href={"/"}>

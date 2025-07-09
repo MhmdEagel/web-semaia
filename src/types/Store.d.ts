@@ -4,4 +4,5 @@ interface IStore {
     logoUrl?: string;
 }
 
+
 export type {IStore};
