@@ -24,7 +24,6 @@ export type RegisterSchema = z.infer<typeof registerSchema>
 export const storeSchema = z.object({
   name: z.string().min(3, "Store name must be at least 3 characters"),
   description: z.string().optional(),
-  logoUrl: z.string().optional(),
 })
 
 export type StoreSchema = z.infer<typeof storeSchema>
@@ -33,7 +32,7 @@ export const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
   price: z.coerce.number().min(0.01, "Price must be greater than 0"),
-  stock: z.coerce.number().int().min(0, "Stock must be 0 or more"),
+  stock: z.coerce.number().min(0, "Stock must be 0 or more"),
   imageUrl: z.string().url("Invalid image URL").optional(),
   storeId: z.string().min(1, "Store ID is required"),
 });

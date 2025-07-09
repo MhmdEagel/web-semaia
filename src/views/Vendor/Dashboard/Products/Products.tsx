@@ -3,6 +3,8 @@ import CreateProduct from "./CreateProduct/CreateProduct";
 import { getUserStoreProducts } from "@/data/store";
 import { redirect } from "next/navigation";
 import getCurrentUser from "@/lib/auth";
+import { DataTable } from "@/components/ui/data-table";
+import { columns } from "@/views/Vendor/Dashboard/Products/Columns/columns";
 
 export default async function Products() {
   const user = await getCurrentUser();
@@ -11,6 +13,19 @@ export default async function Products() {
 
   const { products } = store;
 
+  const safeProducts = products.map((product) => ({
+    ...product,
+    price: product.price.toNumber(), // konversi Decimal -> number
+  }));
+
+  if (products.length > 0) {
+    return (
+      <div className="container space-y-4">
+          <CreateProduct storeId={store?.id} />
+        <DataTable columns={columns} data={safeProducts} />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <Image

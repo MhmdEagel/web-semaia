@@ -41,7 +41,7 @@ export default function ResetPasswordEmail(props: PropTypes) {
             color: "white",
             borderRadius: "10px",
           }}
-          href={`http://localhost:3000/auth/new-password?token=${token}`}
+          href={`${process.env.BASE_URL}/auth/new-password?token=${token}`}
         >
           Reset Password
         </a>

@@ -13,31 +13,40 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { storeSchema, StoreSchema } from "@/schemas/schemas";
-import { IStore } from "@/types/Store";
+import { storeSchema } from "@/schemas/schemas";
 import ErrorCard from "./ui/error-card";
 import { createStoreAction } from "@/actions/create-vendor";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
+import { z } from "zod";
 
 export function StoreForm() {
   const [isPending, setIsPending] = useState(false);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
 
-  const form = useForm<StoreSchema>({
+  const form = useForm<z.infer<typeof storeSchema>>({
     resolver: zodResolver(storeSchema),
     defaultValues: {
       name: "",
       description: "",
-      logoUrl: "",
     },
   });
 
   const { errors } = form.formState;
 
-  const handleSubmit = async (data: IStore) => {
+  const handleSubmit = async (data: z.infer<typeof storeSchema>) => {
     try {
       setIsPending(true);
-      await createStoreAction(data);
+
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("description", data.description ?? "");
+
+      if (logoFile) {
+        formData.append("logo", logoFile);
+      }
+
+      await createStoreAction(formData);
     } catch (error) {
       form.setError("root", { message: (error as Error).message });
     } finally {
@@ -62,7 +71,6 @@ export function StoreForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="description"
@@ -76,20 +84,20 @@ export function StoreForm() {
             </FormItem>
           )}
         />
+        <FormItem>
+          <FormLabel>Store Logo</FormLabel>
+          <FormControl>
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) setLogoFile(file);
+              }}
+            />
+          </FormControl>
+        </FormItem>
 
-        <FormField
-          control={form.control}
-          name="logoUrl"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Logo URL</FormLabel>
-              <FormControl>
-                <Input placeholder="Optional Logo" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? <Spinner variant="circle" color="white" /> : "Create Vendor"}
         </Button>

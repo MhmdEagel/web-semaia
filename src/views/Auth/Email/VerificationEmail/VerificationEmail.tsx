@@ -41,7 +41,7 @@ export default function VerificationEmail(props: PropTypes) {
             color: "white",
             borderRadius: "10px",
           }}
-          href={`http://localhost:3000/auth/new-verification?token=${token}`}
+          href={`${process.env.BASE_URL}/auth/new-verification?token=${token}`}
         >
           Verify Email
         </a>
